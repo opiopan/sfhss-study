@@ -161,7 +161,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 #define CONVDATA(val) ((((uint32_t)(val) - 970) * 255) / 1100)
-  uint8_t msg[6];
+  struct {
+      uint8_t id;
+      uint8_t axis[6];
+  } report;
   int last = sfhss.phase;
   int led = 0;
   while (1)
@@ -184,13 +187,14 @@ int main(void)
           val = MIN(val, 4095);
           __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 4095 - val);
 
-          msg[0] = CONVDATA(sfhss.data[0]);
-          msg[1] = CONVDATA(sfhss.data[1]);
-          msg[2] = CONVDATA(sfhss.data[2]);
-          msg[3] = CONVDATA(sfhss.data[3]);
-          msg[4] = CONVDATA(sfhss.data[4]);
-          msg[5] = CONVDATA(sfhss.data[5]);
-          USBD_CUSTOM_HID_SendReport_FS(msg, sizeof(msg));
+          report.id = 1;
+          report.axis[0] = CONVDATA(sfhss.data[0]);
+          report.axis[1] = CONVDATA(sfhss.data[1]);
+          report.axis[2] = CONVDATA(sfhss.data[2]);
+          report.axis[3] = CONVDATA(sfhss.data[3]);
+          report.axis[4] = CONVDATA(sfhss.data[4]);
+          report.axis[5] = CONVDATA(sfhss.data[5]);
+          USBD_CUSTOM_HID_SendReport_FS((uint8_t*)&report, sizeof(report));
 
           SFHSS_RESET_DIRTY(&sfhss);
       }
