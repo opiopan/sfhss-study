@@ -106,6 +106,8 @@ static void MX_TIM3_Init(void);
 CC2500CTX cc2500ctx;
 SFHSSCTX sfhss;
 
+volatile char debug_string[10] = "hogehoge";
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if (GPIO_Pin == GPIO_PIN_8){
@@ -163,7 +165,7 @@ int main(void)
 #define CONVDATA(val) ((((uint32_t)(val) - 970) * 255) / 1100)
   struct {
       uint8_t id;
-      uint8_t axis[6];
+      uint8_t axis[8];
   } report;
   int last = sfhss.phase;
   int led = 0;
@@ -194,6 +196,8 @@ int main(void)
           report.axis[3] = CONVDATA(sfhss.data[3]);
           report.axis[4] = CONVDATA(sfhss.data[4]);
           report.axis[5] = CONVDATA(sfhss.data[5]);
+          report.axis[6] = CONVDATA(sfhss.data[6]);
+          report.axis[7] = CONVDATA(sfhss.data[7]);
           USBD_CUSTOM_HID_SendReport_FS((uint8_t*)&report, sizeof(report));
 
           SFHSS_RESET_DIRTY(&sfhss);

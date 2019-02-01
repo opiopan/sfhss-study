@@ -117,29 +117,30 @@
   */
 
 /** Usb HID report descriptor. */
-__ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END =
-{
-  /* USER CODE BEGIN 0 */
-    0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
-    0x09, 0x04,                    // USAGE (Joystick)
-    0xa1, 0x01,                    // COLLECTION (Application)
-    0x85, 0x01,                    //   REPORT_ID (1)
-    0x09, 0x04,                    //   USAGE (Joystick)
-    0xa1, 0x00,                    //   COLLECTION (Physical)
-    0x09, 0x30,                    //     USAGE (X)
-    0x09, 0x31,                    //     USAGE (Y)
-    0x09, 0x32,                    //     USAGE (Z)
-    0x09, 0x33,                    //     USAGE (Rx)
-    0x09, 0x34,                    //     USAGE (Ry)
-    0x09, 0x35,                    //     USAGE (Rz)
-    0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
-    0x26, 0xff, 0x00,              //     LOGICAL_MAXIMUM (255)
-    0x75, 0x08,                    //     REPORT_SIZE (8)
-    0x95, 0x06,                    //     REPORT_COUNT (6)
-    0x81, 0x02,                    //     INPUT (Data,Var,Abs)
-    0xc0,                          //   END_COLLECTION
-  /* USER CODE END 0 */
-  0xC0    /*     END_COLLECTION	             */
+__ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END = {
+      /* USER CODE BEGIN 0 */
+      0x05, 0x01,       // USAGE_PAGE (Generic Desktop)
+      0x09, 0x04,       // USAGE (Joystick)
+      0xa1, 0x01,       // COLLECTION (Application)
+      0x85, 0x01,       //   REPORT_ID (1)
+      0x09, 0x04,       //   USAGE (Joystick)
+      0xa1, 0x00,       //   COLLECTION (Physical)
+      0x09, 0x30,       //     USAGE (X)
+      0x09, 0x31,       //     USAGE (Y)
+      0x09, 0x32,       //     USAGE (Z)
+      0x09, 0x33,       //     USAGE (Rx)
+      0x09, 0x34,       //     USAGE (Ry)
+      0x09, 0x35,       //     USAGE (Rz)
+      0x09, 0x41,       //     USAGE (Vy)
+      0x09, 0x40,       //     USAGE (Vx)
+      0x15, 0x00,       //     LOGICAL_MINIMUM (0)
+      0x26, 0xff, 0x00, //     LOGICAL_MAXIMUM (255)
+      0x75, 0x08,       //     REPORT_SIZE (8)
+      0x95, 0x08,       //     REPORT_COUNT (8)
+      0x81, 0x02,       //     INPUT (Data,Var,Abs)
+      0xc0,             //   END_COLLECTION
+      /* USER CODE END 0 */
+      0xC0 /*     END_COLLECTION	             */
 };
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */

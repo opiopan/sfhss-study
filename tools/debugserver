@@ -1,0 +1,10 @@
+#!/bin/sh
+expect -c "
+    spawn telnet $1 $2;expect \"> \"
+    send -- \"reset halt\n\"
+    expect \"> \"
+    send -- \"exit\n\""
+echo
+echo END
+cat
+

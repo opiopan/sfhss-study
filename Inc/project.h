@@ -8,7 +8,9 @@
 #ifndef PROJECT_H_
 #define PROJECT_H_
 
-#include "stm32f0xx_hal.h"
+#include <stdint.h>
+#include <stm32f0xx.h>
+#include <stm32f0xx_hal.h>
 
 #ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
