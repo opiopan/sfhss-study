@@ -17,7 +17,7 @@
             "externalConsole": false,
             "preLaunchTask": "Build",
             "debugServerPath": "${workspaceFolder}/tools/debugserver",
-            "debugServerArgs": "rosalind 4444",
+            "debugServerArgs": "rosalind 3333 4444 ${workspaceFolder}/build/sfhss-study.elf",
             "serverStarted": "END",
             "miDebuggerServerAddress": "rosalind:3333"
         }

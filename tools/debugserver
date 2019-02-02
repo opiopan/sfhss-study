@@ -1,9 +1,33 @@
 #!/bin/sh
+
+if [ $# -ne 4 ];then
+    echo invalid syntax >&2
+    exit 1
+fi
+
+HOST=$1
+PORT1=$2
+PORT2=$3
+IMAGE=$4
+
 expect -c "
-    spawn telnet $1 $2;expect \"> \"
+    spawn arm-none-eabi-gdb $IMAGE
+    expect \"(gdb)\"
+    send -- \"target remote $HOST:$PORT1\n\"
+    expect \"(gdb)\"
+    send -- \"load\n\"
+    expect \"(gdb)\"
+    send -- \"detach\n\"
+    expect \"(gdb)\"
+    send -- \"quit\n\"
+" || exit 1
+
+expect -c "
+    spawn telnet $HOST $PORT2
+    expect \"> \"
     send -- \"reset halt\n\"
     expect \"> \"
-    send -- \"exit\n\""
+    send -- \"exit\n\"" || exit 1
 echo
 echo END
 cat
