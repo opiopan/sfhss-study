@@ -8,9 +8,7 @@
         {
             "label": "Build",
             "command": "make",
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": "$gcc",
             "group": {
                 "kind": "build",
                 "isDefault": true

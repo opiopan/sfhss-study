@@ -4,14 +4,15 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/Drivers/STM32F0xx_HAL_Driver/Inc",
-                "${workspaceFolder}/Drivers/STM32F0xx_HAL_Driver/Inc"
+                "/opt/gcc-arm-none-eabi/arm-none-eabi/include"
             ],
-            "defines": [],
-            "compilerPath": "/usr/bin/clang",
+            "defines": [
+                "STM32F042x6"                
+            ],
+            "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "gcc-x64",
             "forcedInclude": ["stdint.h", "core_cm0.h", "stm32f0xx.h", "stm32f042x6.h"]
         }
     ],
