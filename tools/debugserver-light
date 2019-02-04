@@ -14,8 +14,6 @@ expect -c "
     expect \"(gdb)\"
     send -- \"target remote $HOST:$PORT\n\"
     expect \"(gdb)\"
-    send -- \"load\n\"
-    expect \"(gdb)\"
     send -- \"mon rtt stop \n\"
     expect \"(gdb)\"
     send -- \"eval \\\"mon rtt setup %p 512 SEGGER\\\\\\\\ RTT\\\", &_SEGGER_RTT\n\"
@@ -28,7 +26,6 @@ expect -c "
     expect \"(gdb)\"
     send -- \"quit\n\"
 " || exit 1
-
 echo
 
 if [ "$INMAKE" == "" ]; then

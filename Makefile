@@ -69,7 +69,9 @@ Src/system_stm32f0xx.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Src/usbd_customhid.c
+Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Src/usbd_customhid.c \
+Middlewares/RTT/SEGGER_RTT.c \
+Middlewares/RTT/SEGGER_RTT_printf.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -131,6 +133,7 @@ C_INCLUDES =  \
 -IDrivers/STM32F0xx_HAL_Driver/Inc/Legacy \
 -IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
 -IMiddlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc \
+-IMiddlewares/RTT \
 -IDrivers/CMSIS/Device/ST/STM32F0xx/Include \
 -IDrivers/CMSIS/Include
 
@@ -198,7 +201,25 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
-  
+
+#######################################
+# download & configure debugger
+#######################################
+flash: all check_remote
+	INMAKE=true tools/debugserver "${DEBUGSERVER}" 3333 $(BUILD_DIR)/$(TARGET).elf
+
+initrtt: all check_remote
+	INMAKE=true tools/debugserver-light "${DEBUGSERVER}" 3333 $(BUILD_DIR)/$(TARGET).elf
+	
+check_remote:
+	@if [ "$(DEBUGSERVER)" = "" ];then \
+	    echo >&2;\
+	    echo ERROR: You need to specify a server address which openocd is running on, \
+	         as DEBUGSERVER variable. >&2;\
+	    echo >&2;\
+	    exit 1;\
+	fi
+
 #######################################
 # dependencies
 #######################################

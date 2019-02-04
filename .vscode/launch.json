@@ -6,20 +6,34 @@
     "configurations": [
 
         {
-            "name": "gdb Launch",
+            "name": "Load & Debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sfhss-study.elf",
             "cwd": "${workspaceFolder}",
-            //"stopAtEntry": true,
             "MIMode": "gdb",
             "miDebuggerPath": "arm-none-eabi-gdb",
             "externalConsole": false,
             "preLaunchTask": "Build",
             "debugServerPath": "${workspaceFolder}/tools/debugserver",
-            "debugServerArgs": "rosalind 3333 4444 ${workspaceFolder}/build/sfhss-study.elf",
+            "debugServerArgs": "janus.local 3333 ${workspaceFolder}/build/sfhss-study.elf",
             "serverStarted": "END",
-            "miDebuggerServerAddress": "rosalind:3333"
+            "miDebuggerServerAddress": "janus.local:3333"
+        },
+
+        {
+            "name": "Debug Current Image",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/sfhss-study.elf",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb",
+            "externalConsole": false,
+            "debugServerPath": "${workspaceFolder}/tools/debugserver-light",
+            "debugServerArgs": "janus.local 3333 ${workspaceFolder}/build/sfhss-study.elf",
+            "serverStarted": "END",
+            "miDebuggerServerAddress": "janus.local:3333"
         }
     ]
 }

@@ -54,7 +54,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usbd_custom_hid_if.h"
+#include <SEGGER_RTT.h>
+#include <usbd_custom_hid_if.h>
 #include "cc2500.h"
 #include "sfhss.h"
 /* USER CODE END Includes */
@@ -123,6 +124,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+  SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+  SEGGER_RTT_printf(0, "\n\n----------------------------------------------------\n");
+  SEGGER_RTT_printf(0, "sfhss-study\n");
+  SEGGER_RTT_printf(0, "     copyright: opiopan@gmail.com\n");
+  SEGGER_RTT_printf(0, "     repository: https://github.com/opiopan/sfhss-study\n");
+  SEGGER_RTT_printf(0, "----------------------------------------------------\n");
+  //SEGGER_RTT_Init();
 
   /* USER CODE END 1 */
 
@@ -158,6 +166,8 @@ int main(void)
   sfhss_init(&sfhss, &cc2500ctx, &htim2);
   sfhss_calibrate(&sfhss);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+
+  SEGGER_RTT_printf(0, "SFHSS: initialization finish\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -174,11 +184,13 @@ int main(void)
       sfhss_schedule(&sfhss);
       if (led == 0 && sfhss.phase == SFHSS_BINDING && sfhss.measureCount[0] != 0){
           __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 4095);
+          SEGGER_RTT_printf(0, "SFHSS: binding start\n");
       }
       if (last != sfhss.phase){
           last = sfhss.phase;
           if (last == SFHSS_CONNECTING1){
               __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+              SEGGER_RTT_printf(0, "SFHSS: disconnected\n");
           }
       }
       if (last == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss)){
