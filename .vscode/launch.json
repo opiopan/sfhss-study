@@ -16,7 +16,7 @@
             "externalConsole": false,
             "preLaunchTask": "Build",
             "debugServerPath": "${workspaceFolder}/tools/debugserver",
-            "debugServerArgs": "janus.local 3333 ${workspaceFolder}/build/sfhss-study.elf",
+            "debugServerArgs": "janus.local ${workspaceFolder}/build/sfhss-study.elf",
             "serverStarted": "END",
             "miDebuggerServerAddress": "janus.local:3333"
         },
@@ -31,7 +31,7 @@
             "miDebuggerPath": "arm-none-eabi-gdb",
             "externalConsole": false,
             "debugServerPath": "${workspaceFolder}/tools/debugserver-light",
-            "debugServerArgs": "janus.local 3333 ${workspaceFolder}/build/sfhss-study.elf",
+            "debugServerArgs": "janus.local ${workspaceFolder}/build/sfhss-study.elf",
             "serverStarted": "END",
             "miDebuggerServerAddress": "janus.local:3333"
         }
