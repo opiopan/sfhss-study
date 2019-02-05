@@ -45,6 +45,7 @@ Src/stm32f0xx_it.c \
 Src/stm32f0xx_hal_msp.c \
 Src/cc2500.c \
 Src/sfhss.c \
+Src/olog.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c \

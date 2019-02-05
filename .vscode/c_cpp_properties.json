@@ -7,7 +7,8 @@
                 "/opt/gcc-arm-none-eabi/arm-none-eabi/include"
             ],
             "defines": [
-                "STM32F042x6"                
+                "STM32F042x6",
+                "USE_FULL_ASSERT"
             ],
             "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
             "cStandard": "c11",
