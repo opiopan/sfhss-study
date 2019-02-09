@@ -172,7 +172,7 @@ void sfhss_calibrate(SFHSSCTX* ctx)
 void sfhss_schedule(SFHSSCTX* ctx)
 {
     int now = (int)__HAL_TIM_GET_COUNTER(ctx->timer);
-    switch (ctx->phase){
+    switch ((int)ctx->phase){
 
     case SFHSS_CALIBRATED:{
         cc2500_strobe(ctx->cc2500, CC2500_SIDLE);
@@ -193,7 +193,14 @@ void sfhss_schedule(SFHSSCTX* ctx)
         ctx->interval[1] = 0;
         ctx->intervalSum[0] = 0;
         ctx->intervalSum[1] = 0;
-        ctx->phase = SFHSS_BINDING;
+        ctx->phase = SFHSS_FINDING_RADIO;
+        break;
+    }
+
+    case SFHSS_FINDING_RADIO:{
+        if (ctx->received){
+            ctx->phase = SFHSS_BINDING;
+        }
         break;
     }
 
@@ -215,6 +222,8 @@ void sfhss_schedule(SFHSSCTX* ctx)
                 ctx->interval[1] = ctx->intervalSum[1] / (ctx->measureCount[1] - 1) / 30;
                 ctx->phase = SFHSS_BINDED;
             }
+        }else if (now - ctx->rtime > LONG_INTERVAL_MAX){
+            ctx->phase = SFHSS_START_BINDING;
         }
         break;
     }

@@ -16,9 +16,14 @@
  *-------------------------------------------------------------*/
 void cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_HandleTypeDef* spi)
 {
-    ctx->selector.ch = sel_ch;
-    ctx->selector.pin = sel_pin;
-    ctx->spi = spi;
+    *ctx = (CC2500CTX){
+        .selector = {
+            .ch = sel_ch,
+            .pin = sel_pin
+        },
+        .spi = spi
+    };
+
     CS_UP(ctx);
     cc2500_reset(ctx);
     cc2500_strobe(ctx, CC2500_SIDLE);

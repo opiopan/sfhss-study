@@ -29,7 +29,7 @@ int cc2500_reset(CC2500CTX* ctx);
 int cc2500_strobe(CC2500CTX* ctx, uint8_t state);
 int cc2500_strobeR(CC2500CTX* ctx, uint8_t state);
 int cc2500_readFIFO(CC2500CTX* ctx, uint8_t* buf, int length);
-int cc2500_waitForState(CC2500CTX* ctx, uint8_t state);
+int cc2500_waitForState(CC2500CTX *ctx, uint8_t state);
 
 #define cc2500_readStatusRegister(ctx, addr, value) cc2500_readRegisterBurst(ctx, addr, value, 1)
 

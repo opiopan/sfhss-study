@@ -21,16 +21,18 @@
 #define SFHSS_ISDIRTY(ctx)          ((ctx)->packetPos == 0 && (ctx)->isDirty)
 #define SFHSS_RESET_DIRTY(ctx)      ((ctx)->isDirty = FALSE)
 
-typedef enum {
+typedef enum
+{
     SFHSS_INIT = 0,
     SFHSS_CALIBRATED,
     SFHSS_START_BINDING,
+    SFHSS_FINDING_RADIO,
     SFHSS_BINDING,
     SFHSS_BINDED,
     SFHSS_CONNECTING1,
     SFHSS_CONNECTING2,
     SFHSS_CONNECTED,
-}SFHSS_PHASE;
+} SFHSS_PHASE;
 
 typedef struct {
     CC2500CTX*          cc2500;
@@ -45,7 +47,7 @@ typedef struct {
     int                 skipCount;
     BOOL                isDirty;
     int32_t             txaddr;
-    uint8_t             phase;
+    SFHSS_PHASE         phase;
     uint8_t             packetPos;
     uint16_t            data[8];
     uint8_t             hopcode;

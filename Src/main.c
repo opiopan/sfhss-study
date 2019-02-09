@@ -79,6 +79,7 @@
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_tx;
+DMA_HandleTypeDef hdma_spi1_rx;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -112,10 +113,16 @@ volatile char debug_string[10] = "hogehoge";
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-    if (GPIO_Pin == GPIO_PIN_8){
-        SFHSS_SET_RECEIVED(&sfhss);
-    }
+  if (GPIO_Pin == GPIO_PIN_8){
+      SFHSS_SET_RECEIVED(&sfhss);
+  }
 }
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -125,12 +132,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  olog_init();
-  olog_printf("\n\n----------------------------------------------------\n");
-  olog_printf("sfhss-study\n");
-  olog_printf("     copyright: opiopan@gmail.com\n");
-  olog_printf("     repository: https://github.com/opiopan/sfhss-study\n");
-  olog_printf("----------------------------------------------------\n");
+    olog_init();
+    olog_printf("\033[0m\n\n----------------------------------------------------\n");
+    olog_printf("sfhss-study\n");
+    olog_printf("     copyright: opiopan@gmail.com\n");
+    olog_printf("     repository: https://github.com/opiopan/sfhss-study\n");
+    olog_printf("----------------------------------------------------\n");
 
   /* USER CODE END 1 */
 
@@ -159,15 +166,15 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  HAL_Delay(100);
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  cc2500_init(&cc2500ctx, GPIOA, GPIO_PIN_4, &hspi1);
-  sfhss_init(&sfhss, &cc2500ctx, &htim2);
-  sfhss_calibrate(&sfhss);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+    HAL_Delay(100);
+    HAL_TIM_Base_Start(&htim2);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+    cc2500_init(&cc2500ctx, GPIOA, GPIO_PIN_4, &hspi1);
+    sfhss_init(&sfhss, &cc2500ctx, &htim2);
+    sfhss_calibrate(&sfhss);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
 
-  OLOG_LOGI("SFHSS: initialization finish");
+    OLOG_LOGI("SFHSS: initialization finish");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -178,20 +185,34 @@ int main(void)
       uint8_t axis[8];
   } report;
   int last = sfhss.phase;
-  int led = 0;
-  while (1)
-  {
+  int bincount = 0;
+  int concount = 0;
+  while (1){
       sfhss_schedule(&sfhss);
-      if (led == 0 && sfhss.phase == SFHSS_BINDING && sfhss.measureCount[0] != 0){
-          __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 4095);
-          OLOG_LOGI("SFHSS: binding start");
-      }
+
       if (last != sfhss.phase){
-          last = sfhss.phase;
-          if (last == SFHSS_CONNECTING1){
-              __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
-              OLOG_LOGI("SFHSS: disconnected");
+        last = sfhss.phase;
+        if (last == SFHSS_START_BINDING){
+          if (bincount > 0){
+            OLOG_LOGW("SFHSS: loast radio or interference while binding");
+            __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
           }
+          bincount++;
+        }
+        if (last == SFHSS_BINDING){
+          OLOG_LOGI("SFHSS: binding start");
+          __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 4095);
+        }else if (last == SFHSS_CONNECTING1){
+          if (concount == 0){
+            OLOG_LOGI("SFHSS: binded");
+          }else{
+            OLOG_LOGW("SFHSS: disconnected");
+          }
+          concount++;
+          __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+        }else if (last == SFHSS_CONNECTED){
+          OLOG_LOGI("SFHSS: connected");
+        }
       }
       if (last == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss)){
           int val = sfhss.data[5];
@@ -288,7 +309,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
