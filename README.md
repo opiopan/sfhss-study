@@ -19,7 +19,7 @@ which impremens S-FHSS transmitter are very helpful to understand the protocol.
 I sincerely appreciate there effort.
 
 ## Hardware configuration
-Utilizing [this kind of cc2500 module](https://www.aliexpress.com/item/Wireless-Module-CC2500-2-4G-Low-power-Consistency-Stability-Small-Size/32702148262.html?spm=a2g0s.9042311.0.0.27424c4dDEvIUe)
+Utilizing [this kind of cc2500 module](https://www.aliexpress.com/item/Wireless-Module-CC2500-2-4G-Low-power-Consistency-Stability-Small-Size/32702148262.html)
 is ease to build a test bench.<br>
 This firmware codes subjects to configure STMF042K6 as below.
 
@@ -34,8 +34,8 @@ This firmware codes subjects to configure STMF042K6 as below.
 
 ## Build Firmware
 1. **Requirements**<br>
-[arm-none-elf-gcc](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads) 
-must be installed in a directory indecateed by `PATH` environment.
+[arm-none-eabi-gcc](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads) 
+must be installed in a directory indecateed by `PATH` environment variable.
 
 2. **Download Source Codes**<br>
 
