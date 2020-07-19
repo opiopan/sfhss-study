@@ -1,3 +1,7 @@
+**NOTE: This project is no longer maintained.**<br>
+This firmware codes has been taken over to the other my project [rcstick-f](https://github.com/opiopan/rcstick-f). And this codes have several issues regarding the stability of connection.<br>
+Please don't use this firmware codes, but refer [rcstick-f](https://github.com/opiopan/rcstick-f).
+
 sfhss-study
 ====
 <img alt="elflet" src="https://raw.githubusercontent.com/wiki/opiopan/sfhss-study/images/test.gif" width=350 align="right">
